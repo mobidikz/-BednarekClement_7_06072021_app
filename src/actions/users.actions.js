@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { GET_USER } from './user.actions';
 
 //recupération de tout les utilisateurs
 export const GET_USERS = "GET_USERS";

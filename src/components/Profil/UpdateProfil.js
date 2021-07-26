@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import UploadImg from './UploadImg';
 import { updateBio } from "../../actions/user.actions";
 import { dateParser } from '../Utils';
+import FollowHandler from './FollowHandler';
 
 
 const UpdateProfil = () => {
@@ -52,11 +53,13 @@ const UpdateProfil = () => {
                     </div>
                     <h4>Inscrit depuis le : {dateParser(userData.createdAt)}</h4>
                     <h5 onClick={() => setFollowingPopup(true)}>
-                        Abonnement : {userData.following ? userData.following.length : ""}
+                        Abonnements : {userData.following ? userData.following.length : ""}
                     </h5> {/*s'il y a des abonnées (au chargement de la page le nombre n'ai pas dispo donc on rend la fonction asyncronne)*/}
+                        
                     <h5 onClick={() => setFollowersPopup(true)}>
-                        Abonnés : {userData.followers ? userData.followers.length :""}
+                        Abonnés : {userData.followers ? userData.followers.length : ""}
                     </h5>
+                            
                 </div>
             </div>
             {followingPopup && (
@@ -64,7 +67,7 @@ const UpdateProfil = () => {
                     <div className="modal">
                         <h3>Abonnements</h3>
                         <span className="cross" onClick={() => setFollowingPopup(false)} >
-                            &#10005; {/*code html pour faire une crois */}
+                            &#10005; {/*code html pour faire une croix */}
                         </span>
                         <ul>
                             {usersData.map((user) => { //map de tout les utilisateurs
@@ -74,7 +77,9 @@ const UpdateProfil = () => {
                                             <li key={user._id}>
                                                 <img src={`${process.env.REACT_APP_API_URL}${user.picture}`} alt="user-pic"/>
                                                 <h4>{user.pseudo}</h4>
-                                                <h1>FOLLOW HANDLER</h1>
+                                                <div className="follow-handler">
+                                                    <FollowHandler idToFollow={user._id} type={'suggestion'}/>
+                                                    </div>
                                             </li>
                                         )
                                     }
@@ -101,7 +106,9 @@ const UpdateProfil = () => {
                                             <li key={user._id}>
                                                 <img src={`${process.env.REACT_APP_API_URL}${user.picture}`} alt="user-pic"/>
                                                 <h4>{user.pseudo}</h4>
-                                                <h1>FOLLOW HANDLER</h1>
+                                                <div className="follow-handler">
+                                                    <FollowHandler idToFollow={user._id} type={'suggestion'}/>
+                                                </div>
                                             </li>
                                         )
                                     }

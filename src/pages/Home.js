@@ -1,11 +1,16 @@
 import React from 'react';
+import LeftNav from "../components/LeftNav";
+import Thread from '../components/Thread';
 
-const App = () => {
+const Home = () => {
   return (
-    <div>
-      
+    <div className="home">
+      <LeftNav />
+      <div className="main">
+        <Thread />
+      </div>
     </div>
   );
 };
 
-export default App;
+export default Home;
