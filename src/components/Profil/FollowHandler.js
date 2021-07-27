@@ -18,11 +18,20 @@ const FollowHandler = ({ idToFollow, type }) => {
         setIsFollowed(false);
     }
 
+    //avant modif pour warning console
+    // useEffect(() => {
+    //     if (!isEmpty(userData.following)) {
+    //         setIsFollowed(userData.following.includes(idToFollow))
+    //     }
+    // }, [userData, following]);
+
     useEffect(() => {
         if (!isEmpty(userData.following)) {
-            setIsFollowed(userData.following.includes(idToFollow))
+          if (userData.following.includes(idToFollow)) {
+            setIsFollowed(true);
+          } else setIsFollowed(false);
         }
-    }, [userData.following]);
+      }, [userData, idToFollow]);
 
 
     return (

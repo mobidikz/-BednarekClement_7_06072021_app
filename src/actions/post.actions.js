@@ -6,12 +6,13 @@ export const LIKE_POST = "LIKE_POST";
 export const UNLIKE_POST = "UNLIKE_POST";
 
 // Récupère la data et l'envois dans le store
-export const getPosts = () => {
+export const getPosts = (num) => {
     return (dispatch) => {
         return axios
             .get(`${process.env.REACT_APP_API_URL}api/post/`)
             .then((res) => {
-                dispatch({ type: GET_POSTS, payload: res.data })
+              const array = res.data.slice(0, num) //num la limite de post affichés
+              dispatch({ type: GET_POSTS, payload: array }) // array à la place de res.data 
             })
             .catch((err) => console.log(err))
     }
