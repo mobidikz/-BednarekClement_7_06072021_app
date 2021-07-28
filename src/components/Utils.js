@@ -1,4 +1,4 @@
-//fonction de traitement de la date
+//fonction de traitement de la date 
 export const dateParser= (num) => {
     let options = {
         hour: "2-digit", 
@@ -26,3 +26,20 @@ export const isEmpty = (value) => {
         (typeof value === "string" && value.trim().length === 0)
     )
 };
+
+//fonction de traitement de la date (pour les commentaires)
+export const timestampParser = (num) => {
+    let options = {
+        hour: "2-digit", 
+        minute: "2-digit", 
+        second:"2-digit", 
+        weekday: "long", 
+        year: "numeric", 
+        month:"short", 
+        day: "numeric"
+    };
+
+    let date = new Date(num).toLocaleDateString("fr-FR", options);
+
+    return date.toString();
+}
