@@ -11,14 +11,15 @@ const NewPostForm = () => {
     const [video, setVideo] = useState('');
     const [file, setFile] = useState();
     const userData = useSelector((state) => state.userReducer);
+    
+    const handlePost = () => {
+
+    }
 
     const handlePicture = () => {
 
     };
 
-    const handlePost = () => {
-
-    }
 
     const cancelPost = () => {
         setMessage('');
@@ -27,9 +28,25 @@ const NewPostForm = () => {
         setFile('');
     }
 
+    const handleVideo = () => {
+        let findLink = message.split(" "); //créer un tableau avec tout les élement séparés par un espace
+        for (let i= 0; i < findLink.length; i++) { // intéroge chaque élément du tableau
+            if (findLink[i].includes('https://www.youtube.com/') ||
+                findLink[i].includes('https://youtube.com/') 
+            ) { //si un élément inclut une de ces deux chaines de charactères
+                let embed = findLink[i].replace('watch?v=', 'embed/'); // remplace la première chaine de charatères par la seconde -> "embed" permet d'inclure une vidéo youtube dans un autre site 
+                setVideo(embed.split('&')[0]); //créer un tableau avec tout les élement séparés par un & -> le but étant de ne garder que le premier élément du tableau pour supprimer un éventuel timecode dans le lien
+                findLink.splice(i, 1);
+                setMessage(findLink.join(" "))
+                setPostPicture('');
+            }
+        }
+    }
+
     useEffect(() => {
         if (!isEmpty(userData)) setIsLoading(false);
-    }, [userData])
+        handleVideo();
+    }, [userData, message, video])
 
     return (
         <div className="post-container">
