@@ -7,6 +7,7 @@ import { applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import rootReducer from './reducers'
 import { getUsers } from './actions/users.actions';
+import { getPosts } from './actions/post.actions';
 
 // outils de développement
 import { composeWithDevTools } from 'redux-devtools-extension'; //les infos sont dans l'outil sur la barre du navigateur
@@ -18,6 +19,7 @@ const store = createStore(
 )
 
 store.dispatch(getUsers()); //récupère tout les utilisateurs dès le lancement de l'app
+store.dispatch(getPosts());
 
 ReactDOM.render(
   <Provider store={store}>
