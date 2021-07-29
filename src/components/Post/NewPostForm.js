@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { isEmpty, timestampParser } from '../Utils';
 import { NavLink } from 'react-router-dom';
-import { unstable_renderSubtreeIntoContainer } from 'react-dom';
+import { addPost, getPosts } from '../../actions/post.actions';
+
+
 
 const NewPostForm = () => {
     const [isLoading, setIsLoading] = useState(true);
@@ -11,13 +13,31 @@ const NewPostForm = () => {
     const [video, setVideo] = useState('');
     const [file, setFile] = useState();
     const userData = useSelector((state) => state.userReducer);
+    const error = useSelector((state) => state.errorReducer.postError);
+    const dispatch = useDispatch();
     
-    const handlePost = () => {
+    const handlePost = async () => {
+        if (message || postPicture || video) {
+            const data = new FormData();
+            data.append('posterId', userData._id);
+            data.append('message', message);
+            if (file) data.append("file", file);
+            data.append('video', video)
+
+            await dispatch(addPost(data));
+            dispatch(getPosts());
+            cancelPost();
+
+        } else {
+            alert("Veuillez enter un message")
+        }
 
     }
 
-    const handlePicture = () => {
-
+    const handlePicture = (e) => {
+        setPostPicture(URL.createObjectURL(e.target.files[0])) //prévisualisation de l'image
+        setFile(e.target.files[0]); //fichiet prêt a etre envoyé
+        setVideo('');
     };
 
 
@@ -28,23 +48,24 @@ const NewPostForm = () => {
         setFile('');
     }
 
-    const handleVideo = () => {
-        let findLink = message.split(" "); //créer un tableau avec tout les élement séparés par un espace
-        for (let i= 0; i < findLink.length; i++) { // intéroge chaque élément du tableau
-            if (findLink[i].includes('https://www.youtube.com/') ||
-                findLink[i].includes('https://youtube.com/') 
-            ) { //si un élément inclut une de ces deux chaines de charactères
-                let embed = findLink[i].replace('watch?v=', 'embed/'); // remplace la première chaine de charatères par la seconde -> "embed" permet d'inclure une vidéo youtube dans un autre site 
-                setVideo(embed.split('&')[0]); //créer un tableau avec tout les élement séparés par un & -> le but étant de ne garder que le premier élément du tableau pour supprimer un éventuel timecode dans le lien
-                findLink.splice(i, 1);
-                setMessage(findLink.join(" "))
-                setPostPicture('');
-            }
-        }
-    }
-
     useEffect(() => {
         if (!isEmpty(userData)) setIsLoading(false);
+
+        const handleVideo = () => {
+            let findLink = message.split(" "); //créer un tableau avec tout les élement séparés par un espace
+            for (let i= 0; i < findLink.length; i++) { // intéroge chaque élément du tableau
+                if (findLink[i].includes('https://www.youtube.com/') ||
+                    findLink[i].includes('https://youtube.com/') 
+                ) { //si un élément inclut une de ces deux chaines de charactères
+                    let embed = findLink[i].replace('watch?v=', 'embed/'); // remplace la première chaine de charatères par la seconde -> "embed" permet d'inclure une vidéo youtube dans un autre site 
+                    setVideo(embed.split('&')[0]); //créer un tableau avec tout les élement séparés par un & -> le but étant de ne garder que le premier élément du tableau pour supprimer un éventuel timecode dans le lien
+                    findLink.splice(i, 1);
+                    setMessage(findLink.join(" "))
+                    setPostPicture('');
+                }
+            }
+        }
+
         handleVideo();
     }, [userData, message, video])
 
@@ -126,6 +147,10 @@ const NewPostForm = () => {
                                     <button onClick={() => setVideo("")} >Supprimer vidéo </button>
                                 )}
                             </div>
+
+                            {!isEmpty(error.format) && <p>{error.format}</p>}
+                            {!isEmpty(error.maxSize) && <p>{error.maxSize}</p>}
+
                             <div className="btn-send">
                                 {message || postPicture || video.length > 20 ? (
                                     <button className="cancel" onClick={(cancelPost)}>Annuler</button>

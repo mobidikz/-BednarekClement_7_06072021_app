@@ -2,15 +2,19 @@ import axios from "axios";
 
 // Pour les posts
 export const GET_POSTS = "GET_POSTS";
+export const ADD_POST ="ADD_POST";
 export const LIKE_POST = "LIKE_POST";
 export const UNLIKE_POST = "UNLIKE_POST";
 export const UPDATE_POST = "UPDATE_POST";
-export const DELETE_POST = "UPDATE_POST";
+export const DELETE_POST = "DELETE_POST";
 
 // Pour les comments
 export const ADD_COMMENT = "ADD_COMMENT";
 export const EDIT_COMMENT = "EDIT_COMMENT";
 export const DELETE_COMMENT = "DELETE_COMMENT";
+
+// Pour les erreurs
+export const GET_POST_ERRORS = "GET_POST_ERRORS";
 
 
 // Récupère la data et l'envois dans le store
@@ -25,6 +29,21 @@ export const getPosts = (num) => {
             .catch((err) => console.log(err))
     }
 }
+
+export const addPost =(data) => {
+  return (dispatch) => {
+    return axios
+        .post(`${process.env.REACT_APP_API_URL}api/post/`, data)
+        .then((res) => {
+          if (res.data.errors) {
+            dispatch({ type: GET_POST_ERRORS, payload: res.data.errors })
+          } else {
+            dispatch({ type: GET_POST_ERRORS, payload: ''});
+          }
+        })
+
+  };
+};
 
 export const likePost = (postId, userId) => {
   return (dispatch) => {
