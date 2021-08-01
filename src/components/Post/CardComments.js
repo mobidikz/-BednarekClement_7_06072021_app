@@ -15,7 +15,7 @@ const CardComments = ({ post }) => {
         e.preventDefault();
 
         if (text) {
-            dispatch(addComment(post._id, userData._id, text, userData.pseudo))
+            dispatch(addComment(post.id, userData.id, text, userData.pseudo))
                 .then(() => dispatch(getPosts()))
                 .then(() => setText(""));
         }
@@ -26,14 +26,14 @@ const CardComments = ({ post }) => {
         <div className="comments-container">
             {post.comments.map((comment) => {
                 return (
-                    <div className={comment.commenterId === userData._id ? 
+                    <div className={comment.commenterId === userData.id ? 
                     "comment-container client" : "comment-container"} 
-                    key={comment._id}>
+                    key={comment.id}>
                         <div className="left-part">
                             <img src={
                                 !isEmpty(usersData[0]) && 
                                 usersData.map((user) => {
-                                    if (user._id === comment.commenterId) return `${process.env.REACT_APP_API_URL}${user.picture}`
+                                    if (user.id === comment.commenterId) return `${process.env.REACT_APP_API_URL}${user.picture}`
                                     else return null
                                 }).join("")          
                             } 
@@ -44,7 +44,7 @@ const CardComments = ({ post }) => {
                             <div className="comment-header">
                                 <div className="pseudo">
                                     <h3>{comment.commenterPseudo}</h3>
-                                    {comment.commenterId !== userData._id && (
+                                    {comment.commenterId !== userData.id && (
                                         <FollowHandler 
                                             idToFollow={comment.commenterId} 
                                             type={'card'} 
@@ -54,14 +54,14 @@ const CardComments = ({ post }) => {
                                 <span>{timestampParser(comment.timestamp)}</span>
                             </div>
                             <p>{comment.text}</p>
-                            <EditDeleteComment comment={comment} postId={post._id} />
+                            <EditDeleteComment comment={comment} postId={post.id} />
                         </div>
                     </div>    
 
 
                 )
             })}
-            {userData._id && (
+            {userData.id && (
                 <form action="" onSubmit={handleComment} className="comment-form">
                     <input 
                         type="text" 

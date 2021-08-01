@@ -19,7 +19,7 @@ const Card = ({ post }) => {
 
     const updateItem = () => {
         if (textUpdate) {
-            dispatch(updatePost(post._id, textUpdate))
+            dispatch(updatePost(post.id, textUpdate))
         }
         setIsUpdated(false);
     }
@@ -29,7 +29,7 @@ const Card = ({ post }) => {
     }, [usersData])
 
     return (
-        <li className="card-container" key={postMessage._id}>
+        <li className="card-container" key={postMessage.id}>
             {isLoading ? (
                 <i className="fas fa-spinner fa-spin"></i>
             ) : (
@@ -38,7 +38,7 @@ const Card = ({ post }) => {
                         <img src={
                             !isEmpty(usersData[0]) && 
                                 usersData.map((user) => {
-                                    if (user._id === post.posterId) return `${process.env.REACT_APP_API_URL}${user.picture}`
+                                    if (user.id === post.posterId) return `${process.env.REACT_APP_API_URL}${user.picture}`
                                     else return null
                                 }).join("")          
                         } alt="poster-pic"/>
@@ -50,12 +50,12 @@ const Card = ({ post }) => {
                                 {
                                     !isEmpty(usersData[0]) && 
                                         usersData.map((user) => {
-                                            if (user._id === post.posterId) return user.pseudo
+                                            if (user.id === post.posterId) return user.pseudo
                                             else return null
                                             }).join("")          
                                 }
                                 </h3>
-                                {post.posterId !== userData._id && (
+                                {post.posterId !== userData.id && (
                                     <FollowHandler idToFollow={post.posterId} type={"card"} />
                                 )}                              
                             </div>
@@ -83,16 +83,16 @@ const Card = ({ post }) => {
                                     frameBorder="0"
                                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                     allowFullScreen
-                                    title={post._id} //élément unique (sinon erreur)
+                                    title={post.id} //élément unique (sinon erreur)
                                 ></iframe>
                             )
                         }
-                        {userData._id === post.posterId && (
+                        {userData.id === post.posterId && (
                             <div className="button-container">
                                 <div onClick={() => setIsUpdated(!isUpdated)}>
                                     <img src="./img/icons/edit.svg" alt="edit"/>
                                 </div>
-                                <DeleteCard id={post._id} />
+                                <DeleteCard id={post.id} />
                             </div>
                         )}
                         <div className="card-footer">

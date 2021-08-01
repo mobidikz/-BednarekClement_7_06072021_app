@@ -18,7 +18,7 @@ const UpdateProfil = () => {
     const [followersPopup, setFollowersPopup] = useState(false);
 
     const handleUpdate = () => {
-        dispatch(updateBio(userData._id, bio));
+        dispatch(updateBio(userData.id, bio));
         setUpdateForm(false);
     }
 
@@ -75,13 +75,13 @@ const UpdateProfil = () => {
                         <ul>
                             {usersData.map((user) => { //map de tout les utilisateurs
                                 for (let i = 0; i< userData.following.length; i++) { //prend tout les abonnements
-                                    if (user._id === userData.following[i]) { //retourn quans les id match
+                                    if (user.id === userData.following[i]) { //retourn quans les id match
                                         return (
-                                            <li key={user._id}>
+                                            <li key={user.id}>
                                                 <img src={`${process.env.REACT_APP_API_URL}${user.picture}`} alt="user-pic"/>
                                                 <h4>{user.pseudo}</h4>
                                                 <div className="follow-handler">
-                                                    <FollowHandler idToFollow={user._id} type={'suggestion'}/>
+                                                    <FollowHandler idToFollow={user.id} type={'suggestion'}/>
                                                     </div>
                                             </li>
                                         )
@@ -104,13 +104,13 @@ const UpdateProfil = () => {
                         <ul>
                             {usersData.map((user) => { //map de tout les utilisateurs
                                 for (let i = 0; i< userData.followers.length; i++) { //prend tout les abonnements
-                                    if (user._id === userData.followers[i]) { //retourn quans les id match
+                                    if (user.id === userData.followers[i]) { //retourn quans les id match
                                         return (
-                                            <li key={user._id}>
+                                            <li key={user.id}>
                                                 <img src={`${process.env.REACT_APP_API_URL}${user.picture}`} alt="user-pic"/>
                                                 <h4>{user.pseudo}</h4>
                                                 <div className="follow-handler">
-                                                    <FollowHandler idToFollow={user._id} type={'suggestion'}/>
+                                                    <FollowHandler idToFollow={user.id} type={'suggestion'}/>
                                                 </div>
                                             </li>
                                         )

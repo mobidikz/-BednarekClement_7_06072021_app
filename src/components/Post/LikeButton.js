@@ -11,12 +11,12 @@ const LikeButton = ({ post }) => {
     const dispatch = useDispatch();
 
     const like = () => {
-        dispatch(likePost(post._id, uid))
+        dispatch(likePost(post.id, uid))
         setLiked(true); //juste accélérer le visuel (avant retour de l'api) ?
     };
 
     const unlike = () => {
-        dispatch(unlikePost(post._id, uid))
+        dispatch(unlikePost(post.id, uid))
         setLiked(false);
     };
 

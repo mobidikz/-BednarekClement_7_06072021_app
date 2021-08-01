@@ -16,8 +16,8 @@ const FriendsHint = () => {
         const notFriendList = () => {
             let array = [];
             usersData.map((user) => {
-                if (user._id !== userData._id && !user.followers.includes(userData._id))
-                    return array.push(user._id);
+                if (user.id !== userData.id && !user.followers.includes(userData.id))
+                    return array.push(user.id);
             })
             array.sort(() => 0.5 - Math.random()); //classe le tableau de façon aléatoire
             if (window.innerHeight > 780) {
@@ -35,7 +35,7 @@ const FriendsHint = () => {
             setFriendsHint(array);
         }
 
-        if (playOnce && !isEmpty(usersData[0]) && !isEmpty(userData._id)) {
+        if (playOnce && !isEmpty(usersData[0]) && !isEmpty(userData.id)) {
             notFriendList();
             setIsLoading(false);
             setPlayOnce(false);
@@ -53,13 +53,13 @@ const FriendsHint = () => {
                 <ul>
                     {friendsHint && friendsHint.map((user) => {
                         for (let i = 0; i < usersData.length; i++)
-                            if (user === usersData[i]._id) {
+                            if (user === usersData[i].id) {
                                 return (
                                     <li className="user-hint" key={user}>
                                         <img src={`${process.env.REACT_APP_API_URL}${usersData[i].picture}`} alt="user-pic" />
                                         <p>{usersData[i].pseudo}</p>
                                         <FollowHandler 
-                                            idToFollow={usersData[i]._id} 
+                                            idToFollow={usersData[i].id} 
                                             type={"suggestion"} 
                                         />
                                     </li>

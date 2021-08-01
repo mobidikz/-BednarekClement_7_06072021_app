@@ -16,13 +16,13 @@ const EditDeleteComment = ({ comment, postId }) => {
     
         if (text) {
             console.log(comment, postId);
-            dispatch(editComment(postId, comment._id, text));
+            dispatch(editComment(postId, comment.id, text));
             setText("");
             setEdit(false);
         }
     }
 
-    const handleDelete = () => dispatch(deleteComment(postId, comment._id));
+    const handleDelete = () => dispatch(deleteComment(postId, comment.id));
 
     useEffect(() => {
         const checkAuthor = () => {

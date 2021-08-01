@@ -5,7 +5,9 @@ const initialState = {};
 export default function allPostsReducer(state = initialState, action) {
   switch (action.type) {
     case GET_ALL_POSTS:
-      return action.payload
+      const posts = action.payload
+      posts.likes = posts.likes.map(l => l.likerId)
+      return posts
     default: 
       return state;
   }

@@ -27,7 +27,7 @@ const App = () => {
 
     if (uid) dispatch(getUser(uid));
     
-  }, [uid, dispatch]); // [] pour ne pas faire la requète à l'infinie
+  }, []); // [] pour ne pas faire la requète à l'infinie
 
   return (
     <UidContext.Provider value={uid}>

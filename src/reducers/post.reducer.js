@@ -13,11 +13,13 @@ const initialState = {};
 export default function postReducer(state = initialState, action) {
     switch (action.type) {
         case GET_POSTS:
-            return action.payload;
+            const posts = action.payload
+            posts.likes = posts.likes.map(l => l.likerId)
+            return posts;
         
         case LIKE_POST:
             return state.map((post) => {
-                if (post._id === action.payload.postId) {
+                if (post.id === action.payload.postId) {
                     return {
                         ...post,
                         likers: [action.payload.userId, ...post.likers],
@@ -29,7 +31,7 @@ export default function postReducer(state = initialState, action) {
 
         case UNLIKE_POST: 
             return state.map((post) => {
-                if (post._id === action.payload.postId) {
+                if (post.id === action.payload.postId) {
                     return {
                         ...post,
                         likers: post.likers.filter((id) => id !== action.payload.userId)
@@ -41,7 +43,7 @@ export default function postReducer(state = initialState, action) {
 
             case UPDATE_POST:
                 return state.map((post) => {
-                  if (post._id === action.payload.postId) {
+                  if (post.id === action.payload.postId) {
                     return {
                       ...post,
                       message: action.payload.message,
@@ -50,15 +52,15 @@ export default function postReducer(state = initialState, action) {
                 });
 
             case DELETE_POST:
-                    return state.filter((post) => post._id !== action.payload.postId);
+                    return state.filter((post) => post.id !== action.payload.postId);
             
             case EDIT_COMMENT:
                 return state.map((post) => {
-                    if (post._id === action.payload.postId) {
+                    if (post.id === action.payload.postId) {
                     return {
                         ...post,
                         comments: post.comments.map((comment) => {
-                        if (comment._id === action.payload.commentId) {
+                        if (comment.id === action.payload.commentId) {
                             return {
                             ...comment,
                             text: action.payload.text,
@@ -73,11 +75,11 @@ export default function postReducer(state = initialState, action) {
 
             case DELETE_COMMENT:
                 return state.map((post) => {
-                    if (post._id === action.payload.postId) {
+                    if (post.id === action.payload.postId) {
                     return {
                         ...post,
                         comments: post.comments.filter(
-                            (comment) => comment._id !== action.payload.commentId)
+                            (comment) => comment.id !== action.payload.commentId)
                     }
                 } else return post;
             });
