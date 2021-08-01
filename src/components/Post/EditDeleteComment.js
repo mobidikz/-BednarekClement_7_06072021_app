@@ -26,12 +26,12 @@ const EditDeleteComment = ({ comment, postId }) => {
 
     useEffect(() => {
         const checkAuthor = () => {
-            if (uid === comment.commenterId){
+            if (uid === comment.commenter.id){
                 setIsAuthor(true);
             }
         }
         checkAuthor();
-    }, [uid, comment.commenterId])
+    }, [uid, comment.commenter.id])
 
     return (
         <div className="edit-comment">

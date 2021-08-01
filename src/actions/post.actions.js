@@ -27,9 +27,15 @@ export const getPosts = (num) => {
         return axios
             .get(`${process.env.REACT_APP_API_URL}api/post/`)
             .then((res) => {
-              const array = res.data.slice(0, num); //num la limite de post affichés
-              dispatch({ type: GET_POSTS, payload: array }); // array à la place de res.data 
-              dispatch({ type: GET_ALL_POSTS, payload: res.data});
+              const posts = res.data.map((p) => {
+                return {
+                  ...p,
+                  likers: p.likes.map(l => l.likerId)
+                }
+              })
+
+              dispatch({ type: GET_POSTS, payload: posts.slice(0, num) }); // array à la place de res.data 
+              dispatch({ type: GET_ALL_POSTS, payload: posts });
             })
             .catch((err) => console.log(err))
     }
@@ -54,7 +60,7 @@ export const likePost = (postId, userId) => {
   return (dispatch) => {
     return axios({
       method: "patch",
-      url: `${process.env.REACT_APP_API_URL}api/post/like-post/${postId}`,
+      url: `${process.env.REACT_APP_API_URL}api/post/${postId}/like`,
       data: { id: userId },
     })
       .then((res) => {
@@ -68,7 +74,7 @@ export const unlikePost = (postId, userId) => {
   return (dispatch) => {
     return axios({
       method: "patch",
-      url: `${process.env.REACT_APP_API_URL}api/post/unlike-post/${postId}`,
+      url: `${process.env.REACT_APP_API_URL}api/post/${postId}/like`,
       data: { id: userId },
     })
       .then((res) => {
@@ -108,8 +114,8 @@ export const deletePost = (postId) => {
 export const addComment = (postId, commenterId, text, commenterPseudo) => {
   return (dispatch) => {
     return axios({
-      method: "patch",
-      url: `${process.env.REACT_APP_API_URL}api/post/comment-post/${postId}`,
+      method: "post",
+      url: `${process.env.REACT_APP_API_URL}api/post/${postId}/comment`,
       data: { commenterId, text, commenterPseudo },
     })
       .then((res) => {
@@ -122,9 +128,9 @@ export const addComment = (postId, commenterId, text, commenterPseudo) => {
 export const editComment = (postId, commentId, text) => {
   return (dispatch) => {
     return axios({
-      method: "patch",
-      url: `${process.env.REACT_APP_API_URL}api/post/edit-comment-post/${postId}`,
-      data: { commentId, text },
+      method: "put",
+      url: `${process.env.REACT_APP_API_URL}api/post/${postId}/comment/${commentId}`,
+      data: { text },
     })
       .then((res) => {
         dispatch({ type: EDIT_COMMENT, payload: { postId, commentId, text } });
@@ -136,9 +142,8 @@ export const editComment = (postId, commentId, text) => {
 export const deleteComment = (postId, commentId) => {
   return (dispatch) => {
     return axios({
-      method: "patch",
-      url: `${process.env.REACT_APP_API_URL}api/post/delete-comment-post/${postId}`,
-      data: { commentId },
+      method: "delete",
+      url: `${process.env.REACT_APP_API_URL}api/post/${postId}/comment/${commentId}`,
     })
       .then((res) => {
         dispatch({ type: DELETE_COMMENT, payload: { postId, commentId } });

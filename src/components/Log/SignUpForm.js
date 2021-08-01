@@ -115,7 +115,7 @@ const SigneUpForm = () => {
           <input type="submit" value="Valider inscription" />
           
         </form>
-    )}
+      )}
     </>
   );
 };

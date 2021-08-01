@@ -1,9 +1,10 @@
-import React, { useContext } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useContext } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { UidContext } from "../components/AppContext";
 import LeftNav from '../components/LeftNav';
 import { isEmpty } from '../components/Utils';
 import Card from "../components/Post/Card";
+import { getTrends } from '../actions/post.actions';
 import Trends from '../components/Trends';
 import FriendsHint from '../components/Profil/FriendsHind';
 
@@ -11,6 +12,23 @@ import FriendsHint from '../components/Profil/FriendsHind';
 const Trending = () => {
   const uid = useContext(UidContext);
   const trendList = useSelector((state) => state.trendingReducer);
+  // const posts2 = useSelector((state) => state.postsReducer);
+  const posts = useSelector((state) => state.allPostsReducer);
+  const dispatch = useDispatch();
+
+  
+  // useEffect(() => {
+  //     if (!isEmpty(posts[0])) {
+  //         const postsArr = Object.keys(posts).map((i) => posts[i]); // crééer un array avec comme base l'object
+  //         let sortedArray = postsArr.sort((a, b) => {
+  //             return b.likers.length - a.likers.length; // range dans l'ordre des plus liker au moins liker
+  //         })
+  //         sortedArray.length = 10;
+  //         dispatch(getTrends(sortedArray))
+  //     }
+
+  // }, [posts, dispatch])
+
   return (
     <div className="trending-page">
       <LeftNav />
@@ -23,7 +41,7 @@ const Trending = () => {
       <div className="right-side">
         <div className="right-side-container">
             <Trends />
-            {uid && <FriendsHint />}
+            {/* {uid && <FriendsHint />} */}
         </div>
 
       </div>

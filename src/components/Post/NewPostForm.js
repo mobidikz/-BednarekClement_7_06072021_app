@@ -76,13 +76,13 @@ const NewPostForm = () => {
             ) : (
                 <>
                     <div className="data">
-                        <p><span>{userData.following ? userData.following.length : 0}
+                        {/* <p><span>{userData.following ? userData.following.length : 0}
                             </span> Abonnement{userData.following && userData.following.length > 1 ? "s" : null}
                         </p>
 
                         <p><span>{userData.followers ? userData.followers.length : 0}
                             </span> Abonné{userData.followers && userData.followers.length > 1 ? "s" : null}
-                        </p>
+                        </p> */}
                     </div>
                     <NavLink exact to="/profil">
                         <div className="user-info">

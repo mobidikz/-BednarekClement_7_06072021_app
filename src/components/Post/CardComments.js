@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addComment, getPosts } from '../../actions/post.actions';
 import FollowHandler from '../Profil/FollowHandler';
-import { isEmpty, timestampParser } from '../Utils';
+import { isEmpty, dateParser } from '../Utils';
 import EditDeleteComment from './EditDeleteComment';
 
 const CardComments = ({ post }) => {
@@ -26,14 +26,14 @@ const CardComments = ({ post }) => {
         <div className="comments-container">
             {post.comments.map((comment) => {
                 return (
-                    <div className={comment.commenterId === userData.id ? 
+                    <div className={comment.commenter.id === userData.id ? 
                     "comment-container client" : "comment-container"} 
                     key={comment.id}>
                         <div className="left-part">
                             <img src={
                                 !isEmpty(usersData[0]) && 
                                 usersData.map((user) => {
-                                    if (user.id === comment.commenterId) return `${process.env.REACT_APP_API_URL}${user.picture}`
+                                    if (user.id === comment.commenter.id) return `${process.env.REACT_APP_API_URL}${user.picture}`
                                     else return null
                                 }).join("")          
                             } 
@@ -43,15 +43,15 @@ const CardComments = ({ post }) => {
                         <div className="right-part">
                             <div className="comment-header">
                                 <div className="pseudo">
-                                    <h3>{comment.commenterPseudo}</h3>
-                                    {comment.commenterId !== userData.id && (
+                                    <h3>{comment.commenter.pseudo}</h3>
+                                    {comment.commenter.id !== userData.id && (
                                         <FollowHandler 
-                                            idToFollow={comment.commenterId} 
+                                            idToFollow={comment.commenter.id} 
                                             type={'card'} 
                                         />
                                     )}
                                 </div>
-                                <span>{timestampParser(comment.timestamp)}</span>
+                                <span>{dateParser(comment.createdAt)}</span>
                             </div>
                             <p>{comment.text}</p>
                             <EditDeleteComment comment={comment} postId={post.id} />

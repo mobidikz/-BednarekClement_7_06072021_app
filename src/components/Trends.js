@@ -4,20 +4,24 @@ import { NavLink } from 'react-router-dom';
 import { getTrends } from '../actions/post.actions';
 import { isEmpty } from './Utils';
 
+
 const Trends = () => {
-    const posts = useSelector((state) => state.allPostsReducer);
+    const posts = useSelector((state) => state.postReducer);
     const usersData = useSelector((state) => state.usersReducer);
     const trendList = useSelector((state) => state.trendingReducer);
     const dispatch = useDispatch();
 
     useEffect(() => {
+        
         if (!isEmpty(posts[0])) {
+            
             const postsArr = Object.keys(posts).map((i) => posts[i]); // crééer un array avec comme base l'object
             let sortedArray = postsArr.sort((a, b) => {
                 return b.likers.length - a.likers.length; // range dans l'ordre des plus liker au moins liker
             })
-            sortedArray.length = 3;
+            sortedArray.length = 10;
             dispatch(getTrends(sortedArray))
+            console.log("laaaaaaaaaaaaaaaaaaaaaaaaa", trendList);
         }
 
     }, [posts, dispatch])

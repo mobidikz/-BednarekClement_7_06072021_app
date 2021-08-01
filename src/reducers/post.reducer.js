@@ -13,9 +13,7 @@ const initialState = {};
 export default function postReducer(state = initialState, action) {
     switch (action.type) {
         case GET_POSTS:
-            const posts = action.payload
-            posts.likes = posts.likes.map(l => l.likerId)
-            return posts;
+            return action.payload;
         
         case LIKE_POST:
             return state.map((post) => {
