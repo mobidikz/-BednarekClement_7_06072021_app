@@ -24,7 +24,7 @@ const UploadImg = () => {
         type="file"
         id="file"
         name="file"
-        accept=".jpg, .jpeg, .png" //"accept" permet d'affichier les trois types d'images par défault dans l'explorateur lors de l'upload
+        accept=".jpg, .jpeg, .png .gif" //"accept" permet d'affichier les trois types d'images par défault dans l'explorateur lors de l'upload
         onChange={(e) => setFile(e.target.files[0])}
       />
       <br/>
