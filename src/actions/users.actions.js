@@ -3,6 +3,7 @@ import axios from 'axios';
 //recupération de tout les utilisateurs
 export const GET_USERS = "GET_USERS";
 export const DELETE_USER = "DELETE_USER";
+export const UPLOAD_USER_PICTURE = "UPLOAD_USER_PICTURE";
 
 export const getUsers = () => {
     return (dispatch) => {

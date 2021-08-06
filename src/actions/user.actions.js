@@ -1,4 +1,5 @@
 import axios from "axios";
+import { UPLOAD_USER_PICTURE } from "./users.actions";
 
 export const GET_USER = "GET_USER";
 export const UPLOAD_PICTURE = "UPLOAD_PICTURE";
@@ -31,6 +32,7 @@ export const uploadPicture = (data, id) => {
                         .get(`${process.env.REACT_APP_API_URL}api/user/${id}`)
                         .then((res) => {
                             dispatch({ type: UPLOAD_PICTURE, payload: res.data.picture }) //change le chemin de l'utilisateur dans le store
+                            dispatch({ type: UPLOAD_USER_PICTURE, payload: res.data })
                         });
                 }
             })
